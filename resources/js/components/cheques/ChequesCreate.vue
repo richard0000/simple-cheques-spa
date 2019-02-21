@@ -52,8 +52,9 @@ export default {
       event.preventDefault();
       var app = this;
       var newCheque = app.cheque;
+      const API_URL = 'http://localhost:8000/api/v1';
       axios
-        .post("/api/v1/cheques", newCheque)
+        .post(`${API_URL}/cheques`, newCheque)
         .then(function(resp) {
           app.$router.push({ path: "/" });
         })

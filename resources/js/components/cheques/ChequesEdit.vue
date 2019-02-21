@@ -42,7 +42,8 @@
             let app = this;
             let id = app.$route.params.id;
             app.chequeId = id;
-            axios.get('/api/v1/cheques/' + id)
+            const API_URL = 'http://localhost:8000/api/v1';
+            axios.get(`${API_URL}/cheques` + id)
                 .then(function (resp) {
                     app.cheque = resp.data;
                 })
@@ -65,7 +66,8 @@
                 event.preventDefault();
                 var app = this;
                 var newCheque = app.cheque;
-                axios.patch('/api/v1/cheques/' + app.chequeId, newCheque)
+                const API_URL = 'http://localhost:8000/api/v1';
+                axios.patch(`${API_URL}/cheques` + app.chequeId, newCheque)
                     .then(function (resp) {
                         app.$router.replace('/');
                     })

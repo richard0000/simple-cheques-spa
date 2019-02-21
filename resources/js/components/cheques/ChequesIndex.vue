@@ -45,8 +45,9 @@ export default {
   },
   mounted() {
     var app = this;
+    const API_URL = 'http://localhost:8000/api/v1';
     axios
-      .get("/api/v1/cheques")
+      .get(`${API_URL}/cheques`)
       .then(function(resp) {
         app.cheques = resp.data;
       })
@@ -59,8 +60,9 @@ export default {
     deleteEntry(id, index) {
       if (confirm("Do you really want to delete it?")) {
         var app = this;
+        const API_URL = 'http://localhost:8000/api/v1';
         axios
-          .delete("/api/v1/cheques/" + id)
+          .delete(`${API_URL}/cheques` + id)
           .then(function(resp) {
             app.cheques.splice(index, 1);
           })
