@@ -11,6 +11,11 @@ A few resources to get you started if this is your first Laravel / VueJs project
 - [Homestead](https://laravel.com/docs/5.7/homestead)
 - [Tutorial (Coming Soon)](http://)
 
+## Tests
+In order to run tests, just run the following command at the root of the project:
+- `vendor/bin/phpunit`
+**JUST TO CLARIFY:** Tests were included to put emphasis in the relevance of TDD in our days. This is a sample project, but the idea is to make the test before you include the functionality so, be carefull how you code! TDD rocks!
+
 ## Steps to build locally
 
 To get this project working properly in very simple steps, I recommend to use [Laravel Homestead](https://laravel.com/docs/5.7/homestead), because it's a perfect choice to left behind all the packages and necessary tools needed for every Laravel / VueJs application. It omes with everything you need.
@@ -27,5 +32,13 @@ Besides, here are the official steps to see this project working on your local e
 - In this second command line instance, run `npm run watch` (or `npm run dev`). Now the  application will be runnning in http://localhost:8080
 
 *Voilá!* you have this pretty simple app now running in your local, enjoy!
+
+## Footnotes
+If you want to improve your Laravel / VueJs project, here are some interesting stuff you could include:
+- Auth
+- Encryption
+- Vuex (State Management)
+- Roles / Permissions
+- CORS
 
 > Author: [Richard Gamarra](https://www.linkedin.com/in/ricardo-gamarra).
