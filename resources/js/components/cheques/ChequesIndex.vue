@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { fetchCheques, destroyCheque } from api/index;
 export default {
   data: function() {
     return {
@@ -45,9 +46,7 @@ export default {
   },
   mounted() {
     var app = this;
-    const API_URL = 'http://localhost:8000/api/v1';
-    axios
-      .get(`${API_URL}/cheques`)
+    this.getCheques()
       .then(function(resp) {
         app.cheques = resp.data;
       })
@@ -57,12 +56,13 @@ export default {
       });
   },
   methods: {
+    getCheques(){
+      return fetchCheques();
+    },
     deleteEntry(id, index) {
       if (confirm("Do you really want to delete it?")) {
         var app = this;
-        const API_URL = 'http://localhost:8000/api/v1';
-        axios
-          .delete(`${API_URL}/cheques` + id)
+        destroyCheque(id)
           .then(function(resp) {
             app.cheques.splice(index, 1);
           })

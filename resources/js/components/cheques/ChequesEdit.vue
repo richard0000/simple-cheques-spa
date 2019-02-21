@@ -37,13 +37,13 @@
     </div>
 </template>
 <script>
+    import { fetchCheque, updateCheque } from api/index;
     export default {
         mounted() {
             let app = this;
             let id = app.$route.params.id;
             app.chequeId = id;
-            const API_URL = 'http://localhost:8000/api/v1';
-            axios.get(`${API_URL}/cheques` + id)
+            this.getCheque(id)
                 .then(function (resp) {
                     app.cheque = resp.data;
                 })
@@ -62,12 +62,17 @@
             }
         },
         methods: {
+            getCheque(id) {
+                return fetchCheque(id);
+            },
+            saveChangesToCheque(id, data){
+                return updateCheque(id, data);
+            },
             saveForm() {
                 event.preventDefault();
                 var app = this;
                 var newCheque = app.cheque;
-                const API_URL = 'http://localhost:8000/api/v1';
-                axios.patch(`${API_URL}/cheques` + app.chequeId, newCheque)
+                this.saveChangesToCheque(app.chequeId, newCheque)
                     .then(function (resp) {
                         app.$router.replace('/');
                     })

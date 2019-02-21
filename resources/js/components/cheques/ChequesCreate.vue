@@ -37,6 +37,7 @@
   </div>
 </template>
 <script>
+import { fetchCheque, updateCheque } from api/index;
 export default {
   data: function() {
     return {
@@ -48,13 +49,15 @@ export default {
     };
   },
   methods: {
+    uploadCheque(cheque){
+      return createCheque(cheque);
+    },
     saveForm() {
       event.preventDefault();
       var app = this;
       var newCheque = app.cheque;
-      const API_URL = 'http://localhost:8000/api/v1';
-      axios
-        .post(`${API_URL}/cheques`, newCheque)
+
+      this.updateCheque(newCheque)
         .then(function(resp) {
           app.$router.push({ path: "/" });
         })
