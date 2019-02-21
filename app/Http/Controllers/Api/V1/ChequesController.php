@@ -13,9 +13,13 @@ class ChequesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Cheque::all();
+        $cheques = Cheque::search($request->only('filter'))
+        ->get();
+
+        return response()
+            ->json($cheques, 200);
     }
 
     /**

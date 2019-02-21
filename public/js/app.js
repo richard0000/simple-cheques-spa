@@ -1763,6 +1763,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api/index */ "./resources/js/api/index.js");
 //
 //
 //
@@ -1801,6 +1802,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1812,11 +1814,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    uploadCheque: function uploadCheque(cheque) {
+      return createCheque(cheque);
+    },
     saveForm: function saveForm() {
       event.preventDefault();
       var app = this;
       var newCheque = app.cheque;
-      axios.post("/api/v1/cheques", newCheque).then(function (resp) {
+      this.updateCheque(newCheque).then(function (resp) {
         app.$router.push({
           path: "/"
         });
@@ -1839,6 +1844,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api/index */ "./resources/js/api/index.js");
 //
 //
 //
@@ -1877,12 +1883,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var app = this;
     var id = app.$route.params.id;
     app.chequeId = id;
-    axios.get('/api/v1/cheques/' + id).then(function (resp) {
+    this.getCheque(id).then(function (resp) {
       app.cheque = resp.data;
     }).catch(function () {
       alert("Could not load your cheque");
@@ -1899,11 +1906,17 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    getCheque: function getCheque(id) {
+      return Object(_api_index__WEBPACK_IMPORTED_MODULE_0__["fetchCheque"])(id);
+    },
+    saveChangesToCheque: function saveChangesToCheque(id, data) {
+      return Object(_api_index__WEBPACK_IMPORTED_MODULE_0__["updateCheque"])(id, data);
+    },
     saveForm: function saveForm() {
       event.preventDefault();
       var app = this;
       var newCheque = app.cheque;
-      axios.patch('/api/v1/cheques/' + app.chequeId, newCheque).then(function (resp) {
+      this.saveChangesToCheque(app.chequeId, newCheque).then(function (resp) {
         app.$router.replace('/');
       }).catch(function (resp) {
         console.log(resp);
@@ -1924,6 +1937,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api/index */ "./resources/js/api/index.js");
 //
 //
 //
@@ -1962,6 +1976,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1970,7 +1985,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var app = this;
-    axios.get("/api/v1/cheques").then(function (resp) {
+    this.getCheques().then(function (resp) {
       app.cheques = resp.data;
     }).catch(function (resp) {
       console.log(resp);
@@ -1978,10 +1993,13 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    getCheques: function getCheques() {
+      return Object(_api_index__WEBPACK_IMPORTED_MODULE_0__["fetchCheques"])();
+    },
     deleteEntry: function deleteEntry(id, index) {
       if (confirm("Do you really want to delete it?")) {
         var app = this;
-        axios.delete("/api/v1/cheques/" + id).then(function (resp) {
+        Object(_api_index__WEBPACK_IMPORTED_MODULE_0__["destroyCheque"])(id).then(function (resp) {
           app.cheques.splice(index, 1);
         }).catch(function (resp) {
           alert("Could not delete cheque");
@@ -52136,6 +52154,46 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/api/index.js":
+/*!***********************************!*\
+  !*** ./resources/js/api/index.js ***!
+  \***********************************/
+/*! exports provided: fetchCheques, fetchCheque, createCheque, updateCheque, destroyCheque */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCheques", function() { return fetchCheques; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCheque", function() { return fetchCheque; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createCheque", function() { return createCheque; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateCheque", function() { return updateCheque; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroyCheque", function() { return destroyCheque; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var API_URL = 'http://localhost:8000/api/v1';
+function fetchCheques() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API_URL, "/cheques"));
+}
+function fetchCheque(chequeId) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API_URL, "/cheques/").concat(chequeId));
+}
+function createCheque(cheque) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API_URL, "/cheques"), {
+    amount: cheque.amount,
+    paymentDate: cheque.paymentDate,
+    recipientName: cheque.recipientName
+  });
+}
+function updateCheque(chequeId) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("".concat(API_URL, "/cheques/").concat(chequeId));
+}
+function destroyCheque(chequeId) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete("".concat(API_URL, "/cheques/").concat(chequeId));
+}
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -52468,8 +52526,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/richard/projects/cheques-spa-app/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/richard/projects/cheques-spa-app/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/code/cheques-spa-app/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/code/cheques-spa-app/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

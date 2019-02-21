@@ -37,8 +37,12 @@
   </div>
 </template>
 <script>
-import { fetchCheque, updateCheque } from api/index;
+import { fetchCheque, updateCheque } from "../../api/index";
 export default {
+  /**
+   * Reactive data
+   *
+   */
   data: function() {
     return {
       cheque: {
@@ -49,9 +53,17 @@ export default {
     };
   },
   methods: {
-    uploadCheque(cheque){
+    /**
+     * Upload new cheque to REST API
+     *
+     */
+    uploadCheque(cheque) {
       return createCheque(cheque);
     },
+    /**
+     * Logic to manage submit form (create cheque)
+     *
+     */
     saveForm() {
       event.preventDefault();
       var app = this;
