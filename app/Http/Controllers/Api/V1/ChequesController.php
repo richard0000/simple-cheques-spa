@@ -18,8 +18,7 @@ class ChequesController extends Controller
         $cheques = Cheque::search($request->only('filter'))
         ->get();
 
-        return response()
-            ->json($cheques, 200);
+        return response()->json($cheques, 200);
     }
 
     /**
@@ -31,7 +30,8 @@ class ChequesController extends Controller
     public function store(Request $request)
     {
         $cheque = Cheque::create($request->all());
-        return $cheque;
+
+        return response()->json($cheque, 200);
     }
 
     /**
@@ -42,7 +42,9 @@ class ChequesController extends Controller
      */
     public function show($id)
     {
-        return Cheque::findOrFail($id);
+        $cheque = Cheque::findOrFail($id);
+
+        return response()->json($cheque, 200);
     }
 
     /**
@@ -57,7 +59,7 @@ class ChequesController extends Controller
         $cheque = Cheque::findOrFail($id);
         $cheque->update($request->all());
 
-        return $cheque;
+        return response()->json($cheque, 200);
     }
 
     /**
@@ -70,6 +72,7 @@ class ChequesController extends Controller
     {
         $cheque = Cheque::findOrFail($id);
         $cheque->delete();
-        return '';
+
+        return response()->json('Deleted cheque with id {$id}', 200);
     }
 }
